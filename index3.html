@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEAN Proposal - Huntington WoW x EY</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        /* Header with title and action buttons */
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #006C5B;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .form-header h1 {
+            color: #006C5B;
+            font-size: 1.75rem;
+            font-weight: 700;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-submit {
+            background-color: #006C5B;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #005a4d;
+        }
+
+        .btn-save {
+            background-color: #008c73;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #007360;
+        }
+
+        .btn-cancel {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #4b5563;
+        }
+
+        /* Accordion sections */
+        .accordion {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            opacity: 0.9;
+        }
+
+        /* Different green shades for each section */
+        .accordion-part1 .accordion-header {
+            background-color: #b3d9d2;
+            color: #004d42;
+        }
+
+        .accordion-part2 .accordion-header {
+            background-color: #66b3a3;
+            color: #003329;
+        }
+
+        .accordion-part3 .accordion-header {
+            background-color: #008c73;
+            color: white;
+        }
+
+        .accordion-arrow {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .accordion.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1.5rem;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 5000px;
+            padding: 1.5rem;
+            transition: max-height 0.5s ease-in;
+        }
+
+        /* Decision buttons */
+        .decision-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .decision-btn {
+            padding: 0.75rem 2rem;
+            border: 2px solid #006C5B;
+            background-color: white;
+            color: #006C5B;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .decision-btn:hover {
+            background-color: #f0f9f7;
+        }
+
+        .decision-btn.selected {
+            background-color: #006C5B;
+            color: white;
+        }
+
+        /* Form fields */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .required {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background-color: #fafafa;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #006C5B;
+            box-shadow: 0 0 0 3px rgba(0, 108, 91, 0.1);
+            background-color: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            padding-right: 2.5rem;
+        }
+
+        /* Parallel fields layout */
+        .parallel-group {
+            margin-bottom: 2rem;
+        }
+
+        .parallel-group-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #006C5B;
+            font-size: 1.05rem;
+        }
+
+        .parallel-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 6px;
+        }
+
+        .parallel-row-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 6px;
+        }
+
+        .parallel-row-2col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 6px;
+        }
+
+        .field-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-wrapper label {
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Subsections */
+        .subsection {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .subsection-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #006C5B;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Success message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            background-color: #006C5B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .success-message h2 {
+            color: #006C5B;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .form-content {
+            display: block;
+        }
+
+        .form-content.hide {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .parallel-row,
+            .parallel-row-3col,
+            .parallel-row-2col {
+                grid-template-columns: 1fr;
+            }
+
+            .decision-buttons {
+                flex-direction: column;
+            }
+
+            .decision-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Header with title and action buttons -->
+            <div class="form-header">
+                <h1>LEAN PROPOSAL - Huntington WoW x EY</h1>
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-submit" onclick="submitForm()">Submit</button>
+                    <button type="button" class="btn btn-save" onclick="saveForm()">Save</button>
+                    <button type="button" class="btn btn-cancel" onclick="cancelForm()">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Success message -->
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h2>Thank you!</h2>
+                <p>Your LEAN proposal has been submitted successfully.</p>
+            </div>
+
+            <!-- Form content -->
+            <div class="form-content" id="formContent">
+                <<form id="leanForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleSubmit(event)">>
+                    
+                    <!-- Part 1 - Intake -->
+                    <div class="accordion accordion-part1 active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Part 1 – Intake</span>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <!-- Decision buttons -->
+                            <div class="form-group">
+                                <label>Decision <span class="required">*</span></label>
+                                <div class="decision-buttons">
+                                    <button type="button" class="decision-btn" onclick="selectDecision(this, 'review')">Review</button>
+                                    <button type="button" class="decision-btn" onclick="selectDecision(this, 'reject')">Reject</button>
+                                    <button type="button" class="decision-btn" onclick="selectDecision(this, 'hold')">Hold</button>
+                                </div>
+                                <input type="hidden" name="decision" id="decisionInput" required>
+                            </div>
+
+                            <!-- Existing intake fields -->
+                            <div class="form-group">
+                                <label for="funnelEntryDate">
+                                    Funnel Entry Date <span class="required">*</span>
+                                </label>
+                                <input type="date" id="funnelEntryDate" name="funnelEntryDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="anchoringProduct">
+                                    Anchoring Product Group / Platform / Channel
+                                </label>
+                                <input type="text" id="anchoringProduct" name="anchoringProduct" placeholder="Enter product group, platform, or channel">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="assignedTo">
+                                    Assigned To
+                                </label>
+                                <input type="text" id="assignedTo" name="assignedTo" placeholder="Enter assignee name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="keyStakeholders">
+                                    Key Stakeholders
+                                </label>
+                                <input type="text" id="keyStakeholders" name="keyStakeholders" placeholder="Enter key stakeholders">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="epic1Title">
+                                    Epic 1 Title <span class="required">*</span>
+                                </label>
+                                <input type="text" id="epic1Title" name="epic1Title" placeholder="Enter epic title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="epic1Description">
+                                    Epic 1 Description <span class="required">*</span>
+                                </label>
+                                <textarea id="epic1Description" name="epic1Description" placeholder="Provide a detailed description of the epic" rows="4" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="strategicAssessment">
+                                    Strategic Assessment
+                                </label>
+                                <textarea id="strategicAssessment" name="strategicAssessment" placeholder="Enter strategic assessment details" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="priorityLevel">
+                                    Priority Level
+                                </label>
+                                <select id="priorityLevel" name="priorityLevel">
+                                    <option value="">Select priority level</option>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="desiredCompletionDate">
+                                    Desired Completion Date
+                                </label>
+                                <input type="date" id="desiredCompletionDate" name="desiredCompletionDate">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="additionalNotes">
+                                    Additional Notes/Attachments
+                                </label>
+                                <textarea id="additionalNotes" name="additionalNotes" placeholder="Enter any additional notes or information" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 2 - Reviewing -->
+                    <div class="accordion accordion-part2">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Part 2 – Reviewing</span>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="form-group">
+                                <label for="businessValueHypothesis">Business Value Hypothesis</label>
+                                <textarea id="businessValueHypothesis" name="businessValueHypothesis" placeholder="Enter business value hypothesis" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="businessValueIndicators">Business Value Leading Indicators</label>
+                                <textarea id="businessValueIndicators" name="businessValueIndicators" placeholder="Enter business value leading indicators" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inScope">In Scope</label>
+                                <textarea id="inScope" name="inScope" placeholder="Enter what is in scope" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="outScope">Out of Scope</label>
+                                <textarea id="outScope" name="outScope" placeholder="Enter what is out of scope" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nonFunctionalReqs">Non-Functional Requirements</label>
+                                <textarea id="nonFunctionalReqs" name="nonFunctionalReqs" placeholder="Enter non-functional requirements" rows="4"></textarea>
+                            </div>
+
+                            <!-- MVP Features -->
+                            <div class="parallel-group">
+                                <div class="parallel-group-title">Minimum Viable Product Features</div>
+                                
+                                <div class="parallel-row">
+                                    <div class="field-wrapper">
+                                        <label>Feature Description</label>
+                                        <input type="text" name="mvpFeature1" placeholder="Enter MVP feature 1">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Assigned To</label>
+                                        <input type="text" name="mvpFeature1AssignedTo" placeholder="Assignee">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row">
+                                    <div class="field-wrapper">
+                                        <label>Feature Description</label>
+                                        <input type="text" name="mvpFeature2" placeholder="Enter MVP feature 2">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Assigned To</label>
+                                        <input type="text" name="mvpFeature2AssignedTo" placeholder="Assignee">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row">
+                                    <div class="field-wrapper">
+                                        <label>Feature Description</label>
+                                        <input type="text" name="mvpFeature3" placeholder="Enter MVP feature 3">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Assigned To</label>
+                                        <input type="text" name="mvpFeature3AssignedTo" placeholder="Assignee">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Complete Build Features -->
+                            <div class="parallel-group">
+                                <div class="parallel-group-title">Complete Build Features</div>
+                                
+                                <div class="parallel-row">
+                                    <div class="field-wrapper">
+                                        <label>Feature Description</label>
+                                        <input type="text" name="buildFeature1" placeholder="Enter build feature 1">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Assigned To</label>
+                                        <input type="text" name="buildFeature1AssignedTo" placeholder="Assignee">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row">
+                                    <div class="field-wrapper">
+                                        <label>Feature Description</label>
+                                        <input type="text" name="buildFeature2" placeholder="Enter build feature 2">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Assigned To</label>
+                                        <input type="text" name="buildFeature2AssignedTo" placeholder="Assignee">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row">
+                                    <div class="field-wrapper">
+                                        <label>Feature Description</label>
+                                        <input type="text" name="buildFeature3" placeholder="Enter build feature 3">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Assigned To</label>
+                                        <input type="text" name="buildFeature3AssignedTo" placeholder="Assignee">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 3 - Analyzing -->
+                    <div class="accordion accordion-part3">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Part 3 – Analyzing</span>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <!-- Cost Subsection -->
+                            <div class="subsection-title">Cost</div>
+
+                            <div class="parallel-group">
+                                <div class="parallel-group-title">MVP Costs (Labor)</div>
+                                
+                                <div class="parallel-row-3col">
+                                    <div class="field-wrapper">
+                                        <label>Sprints and Squad</label>
+                                        <input type="text" name="mvpCostSprints1" placeholder="Enter sprints/squad">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Squad Capacity</label>
+                                        <input type="text" name="mvpCostCapacity1" placeholder="Capacity">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>$ Amount</label>
+                                        <input type="number" name="mvpCostAmount1" placeholder="0.00" step="0.01">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row-3col">
+                                    <div class="field-wrapper">
+                                        <label>Sprints and Squad</label>
+                                        <input type="text" name="mvpCostSprints2" placeholder="Enter sprints/squad">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Squad Capacity</label>
+                                        <input type="text" name="mvpCostCapacity2" placeholder="Capacity">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>$ Amount</label>
+                                        <input type="number" name="mvpCostAmount2" placeholder="0.00" step="0.01">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row-3col">
+                                    <div class="field-wrapper">
+                                        <label>Sprints and Squad</label>
+                                        <input type="text" name="mvpCostSprints3" placeholder="Enter sprints/squad">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Squad Capacity</label>
+                                        <input type="text" name="mvpCostCapacity3" placeholder="Capacity">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>$ Amount</label>
+                                        <input type="number" name="mvpCostAmount3" placeholder="0.00" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="parallel-group">
+                                <div class="parallel-group-title">Full Costs (Labor)</div>
+                                
+                                <div class="parallel-row-3col">
+                                    <div class="field-wrapper">
+                                        <label>Sprints and Squad</label>
+                                        <input type="text" name="fullCostSprints1" placeholder="Enter sprints/squad">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Squad Capacity</label>
+                                        <input type="text" name="fullCostCapacity1" placeholder="Capacity">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>$ Amount</label>
+                                        <input type="number" name="fullCostAmount1" placeholder="0.00" step="0.01">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row-3col">
+                                    <div class="field-wrapper">
+                                        <label>Sprints and Squad</label>
+                                        <input type="text" name="fullCostSprints2" placeholder="Enter sprints/squad">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Squad Capacity</label>
+                                        <input type="text" name="fullCostCapacity2" placeholder="Capacity">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>$ Amount</label>
+                                        <input type="number" name="fullCostAmount2" placeholder="0.00" step="0.01">
+                                    </div>
+                                </div>
+
+                                <div class="parallel-row-3col">
+                                    <div class="field-wrapper">
+                                        <label>Sprints and Squad</label>
+                                        <input type="text" name="fullCostSprints3" placeholder="Enter sprints/squad">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>Squad Capacity</label>
+                                        <input type="text" name="fullCostCapacity3" placeholder="Capacity">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>$ Amount</label>
+                                        <input type="number" name="fullCostAmount3" placeholder="0.00" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="parallel-group">
+                                <div class="parallel-group-title">Full Costs (Non-Labor)</div>
+                                
+                                <div class="parallel-row-2col">
+                                    <div class="field-wrapper">
+                                        <label>Integration Fees</label>
+                                        <input type="number" name="integrationFees" placeholder="0.00" step="0.01">
+                                    </div>
+                                    <div class="field-wrapper">
+                                        <label>NVP $</label>
+                                        <input type="number" name="nvpAmount" placeholder="0.00" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Benefits Subsection -->
+                            <div class="subsection">
+                                <div class="subsection-title">Benefits</div>
+
+                                <div class="parallel-group">
+                                    <div class="parallel-group-title">Expected Benefits (Financial)</div>
+                                    
+                                    <div class="parallel-row-3col">
+                                        <div class="field-wrapper">
+                                            <label>Name</label>
+                                            <input type="text" name="financialBenefit1Name" placeholder="Benefit name">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Date</label>
+                                            <input type="date" name="financialBenefit1Date">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Status</label>
+                                            <input type="text" name="financialBenefit1Status" placeholder="Status">
+                                        </div>
+                                    </div>
+
+                                    <div class="parallel-row-3col">
+                                        <div class="field-wrapper">
+                                            <label>Name</label>
+                                            <input type="text" name="financialBenefit2Name" placeholder="Benefit name">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Date</label>
+                                            <input type="date" name="financialBenefit2Date">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Status</label>
+                                            <input type="text" name="financialBenefit2Status" placeholder="Status">
+                                        </div>
+                                    </div>
+
+                                    <div class="parallel-row-3col">
+                                        <div class="field-wrapper">
+                                            <label>Name</label>
+                                            <input type="text" name="financialBenefit3Name" placeholder="Benefit name">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Date</label>
+                                            <input type="date" name="financialBenefit3Date">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Status</label>
+                                            <input type="text" name="financialBenefit3Status" placeholder="Status">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="parallel-group">
+                                    <div class="parallel-group-title">Expected Benefits (Non-Financial)</div>
+                                    
+                                    <div class="parallel-row-3col">
+                                        <div class="field-wrapper">
+                                            <label>Name</label>
+                                            <input type="text" name="nonFinancialBenefit1Name" placeholder="Benefit name">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Date</label>
+                                            <input type="date" name="nonFinancialBenefit1Date">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Status</label>
+                                            <input type="text" name="nonFinancialBenefit1Status" placeholder="Status">
+                                        </div>
+                                    </div>
+
+                                    <div class="parallel-row-3col">
+                                        <div class="field-wrapper">
+                                            <label>Name</label>
+                                            <input type="text" name="nonFinancialBenefit2Name" placeholder="Benefit name">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Date</label>
+                                            <input type="date" name="nonFinancialBenefit2Date">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Status</label>
+                                            <input type="text" name="nonFinancialBenefit2Status" placeholder="Status">
+                                        </div>
+                                    </div>
+
+                                    <div class="parallel-row-3col">
+                                        <div class="field-wrapper">
+                                            <label>Name</label>
+                                            <input type="text" name="nonFinancialBenefit3Name" placeholder="Benefit name">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Date</label>
+                                            <input type="date" name="nonFinancialBenefit3Date">
+                                        </div>
+                                        <div class="field-wrapper">
+                                            <label>QBR Commitment Status</label>
+                                            <input type="text" name="nonFinancialBenefit3Status" placeholder="Status">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Analysis Summary Subsection -->
+                            <div class="subsection">
+                                <div class="subsection-title">Analysis Summary</div>
+                                <div class="form-group">
+                                    <textarea name="analysisSummary" placeholder="Enter analysis summary" rows="6"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Analysis Notes Subsection -->
+                            <div class="subsection">
+                                <div class="subsection-title">Detailed Analysis Notes</div>
+                                <div class="form-group">
+                                    <label for="detailedNotes">Other Notes and Attachments</label>
+                                    <textarea id="detailedNotes" name="detailedNotes" placeholder="Enter detailed analysis notes and attachments" rows="6"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Accordion toggle functionality
+        function toggleAccordion(header) {
+            const accordion = header.parentElement;
+            accordion.classList.toggle('active');
+        }
+
+        // Decision button selection
+        function selectDecision(button, value) {
+            // Remove selected class from all decision buttons
+            const buttons = document.querySelectorAll('.decision-btn');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            
+            // Add selected class to clicked button
+            button.classList.add('selected');
+            
+            // Update hidden input value
+            document.getElementById('decisionInput').value = value;
+        }
+
+        // Submit form
+       function handleSubmit(event) {
+    event.preventDefault(); // Prevent default form submit
+
+    const form = document.getElementById('leanForm');
+
+    // Validate required fields
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    // Check if decision is selected
+    if (!document.getElementById('decisionInput').value) {
+        alert('Please select a decision (Review, Reject, or Hold)');
+        return;
+    }
+
+    // Collect form data
+    const formData = new FormData(form);
+
+    // Send to Formspree
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        if (response.ok) {
+            // Show success message
+            document.getElementById('formContent').classList.add('hide');
+            document.getElementById('successMessage').classList.add('show');
+
+            // Reset form after 3 seconds
+            setTimeout(function() {
+                form.reset();
+                document.querySelectorAll('.decision-btn').forEach(btn => btn.classList.remove('selected'));
+                document.getElementById('decisionInput').value = '';
+                document.getElementById('successMessage').classList.remove('show');
+                document.getElementById('formContent').classList.remove('hide');
+            }, 3000);
+        } else {
+            alert('There was a problem submitting your form. Please try again.');
+        }
+    }).catch(error => {
+        console.error(error);
+        alert('There was a problem submitting your form. Please try again.');
+    });
+}
+
+
+        // Save form (stores data in localStorage)
+        function saveForm() {
+            const form = document.getElementById('leanForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Add decision value
+            data.decision = document.getElementById('decisionInput').value;
+            
+            // Save to localStorage
+            localStorage.setItem('leanFormData', JSON.stringify(data));
+            
+            alert('Form data saved successfully!');
+        }
+
+        // Cancel form
+        function cancelForm() {
+            if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
+                document.getElementById('leanForm').reset();
+                document.querySelectorAll('.decision-btn').forEach(btn => btn.classList.remove('selected'));
+                document.getElementById('decisionInput').value = '';
+            }
+        }
+
+        // Load saved form data on page load
+        window.addEventListener('load', function() {
+            const savedData = localStorage.getItem('leanFormData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                const form = document.getElementById('leanForm');
+                
+                // Populate form fields
+                Object.keys(data).forEach(key => {
+                    const field = form.elements[key];
+                    if (field) {
+                        field.value = data[key];
+                    }
+                });
+                
+                // Set decision button
+                if (data.decision) {
+                    const decisionButtons = document.querySelectorAll('.decision-btn');
+                    decisionButtons.forEach(btn => {
+                        if (btn.textContent.toLowerCase() === data.decision) {
+                            btn.classList.add('selected');
+                        }
+                    });
+                    document.getElementById('decisionInput').value = data.decision;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
