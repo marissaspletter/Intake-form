@@ -1,0 +1,121 @@
+<div class="container">
+    <div class="card">
+        <!-- Header with title and action buttons -->
+        <div class="form-header">
+            <h1>LEAN PROPOSAL - Huntington WoW x EY</h1>
+            <div class="action-buttons">
+                <button type="button" class="btn btn-submit" onclick="submitForm()">Submit</button>
+                <button type="button" class="btn btn-save" onclick="saveForm()">Save</button>
+                <button type="button" class="btn btn-cancel" onclick="cancelForm()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Success message -->
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2>Thank you!</h2>
+            <p>Your LEAN proposal has been submitted successfully.</p>
+        </div>
+
+        <!-- Form content -->
+        <div class="form-content" id="formContent">
+            <form id="leanForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleSubmit(event)">
+
+                <!-- Part 1 – Intake -->
+                <div class="accordion accordion-part1 active">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Part 1 – Intake</span>
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <!-- [Part 1 fields from previous snippet] -->
+                    </div>
+                </div>
+
+                <!-- Part 2 – Reviewing -->
+                <div class="accordion accordion-part2">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Part 2 – Reviewing</span>
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <!-- [Part 2 fields from previous snippet] -->
+                    </div>
+                </div>
+
+                <!-- Part 3 – Analyzing -->
+                <div class="accordion accordion-part3">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Part 3 – Analyzing</span>
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-content">
+
+                        <!-- Costs Section -->
+                        <div class="subsection">
+                            <div class="subsection-title">Costs</div>
+
+                            <div class="form-group">
+                                <label for="mvpCosts">MVP Costs (in USD)</label>
+                                <input type="number" id="mvpCosts" name="mvpCosts" placeholder="Enter MVP costs">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fullBuildCosts">Full Build Costs (in USD)</label>
+                                <input type="number" id="fullBuildCosts" name="fullBuildCosts" placeholder="Enter full build costs">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="otherCostsNotes">Other Costs Notes</label>
+                                <textarea id="otherCostsNotes" name="otherCostsNotes" placeholder="Enter any additional notes on costs" rows="4"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Benefits Section -->
+                        <div class="subsection">
+                            <div class="subsection-title">Benefits</div>
+
+                            <div class="form-group">
+                                <label for="expectedFinancialBenefits">Expected Financial Benefits (in USD)</label>
+                                <input type="number" id="expectedFinancialBenefits" name="expectedFinancialBenefits" placeholder="Enter expected financial benefits">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="expectedNonFinancialBenefits">Expected Non-Financial Benefits</label>
+                                <textarea id="expectedNonFinancialBenefits" name="expectedNonFinancialBenefits" placeholder="Enter expected non-financial benefits" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="benefitsNotes">Other Benefits Notes</label>
+                                <textarea id="benefitsNotes" name="benefitsNotes" placeholder="Enter any additional notes on benefits" rows="4"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Analysis Summary -->
+                        <div class="subsection">
+                            <div class="subsection-title">Analysis Summary</div>
+                            <div class="form-group">
+                                <textarea id="analysisSummary" name="analysisSummary" placeholder="Provide a high-level summary of analysis" rows="6"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Notes / Attachments -->
+                        <div class="subsection">
+                            <div class="subsection-title">Detailed Analysis Notes</div>
+                            <div class="form-group">
+                                <label for="detailedNotes">Other Notes and Attachments</label>
+                                <textarea id="detailedNotes" name="detailedNotes" placeholder="Enter detailed analysis notes and attachments" rows="6"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
