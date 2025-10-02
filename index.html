@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Intake Form - Huntington Bank</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #006C5B;
+            padding-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            color: #006C5B;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .required {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background-color: #fafafa;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #006C5B;
+            box-shadow: 0 0 0 3px rgba(0, 108, 91, 0.1);
+            background-color: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            padding-right: 2.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #006C5B;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #005a4d;
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            background-color: #006C5B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .success-message h2 {
+            color: #006C5B;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .form-content {
+            display: block;
+        }
+
+        .form-content.hide {
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>Project Intake Form</h1>
+                <p>Please complete the required fields (<span class="required">*</span>) to submit your intake request.</p>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h2>Thank you!</h2>
+                <p>Your project intake request has been submitted.</p>
+            </div>
+
+            <div class="form-content" id="formContent">
+                <form id="intakeForm">
+                    <div class="form-group">
+                        <label for="funnelEntryDate">
+                            Funnel Entry Date <span class="required">*</span>
+                        </label>
+                        <input type="date" id="funnelEntryDate" name="funnelEntryDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="anchoringProduct">
+                            Anchoring Product Group / Platform / Channel
+                        </label>
+                        <input type="text" id="anchoringProduct" name="anchoringProduct" placeholder="Enter product group, platform, or channel">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assignedTo">
+                            Assigned To
+                        </label>
+                        <input type="text" id="assignedTo" name="assignedTo" placeholder="Enter assignee name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="keyStakeholders">
+                            Key Stakeholders
+                        </label>
+                        <input type="text" id="keyStakeholders" name="keyStakeholders" placeholder="Enter key stakeholders">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="epic1Title">
+                            Epic 1 Title <span class="required">*</span>
+                        </label>
+                        <input type="text" id="epic1Title" name="epic1Title" placeholder="Enter epic title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="epic1Description">
+                            Epic 1 Description <span class="required">*</span>
+                        </label>
+                        <textarea id="epic1Description" name="epic1Description" placeholder="Provide a detailed description of the epic" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="strategicAssessment">
+                            Strategic Assessment
+                        </label>
+                        <textarea id="strategicAssessment" name="strategicAssessment" placeholder="Enter strategic assessment details" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priorityLevel">
+                            Priority Level
+                        </label>
+                        <select id="priorityLevel" name="priorityLevel">
+                            <option value="">Select priority level</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="desiredCompletionDate">
+                            Desired Completion Date
+                        </label>
+                        <input type="date" id="desiredCompletionDate" name="desiredCompletionDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalNotes">
+                            Additional Notes/Attachments
+                        </label>
+                        <textarea id="additionalNotes" name="additionalNotes" placeholder="Enter any additional notes or information" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('intakeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            // Log form data (in production, you would send this to a server)
+            console.log('Form submitted:', data);
+
+            // Hide form and show success message
+            document.getElementById('formContent').classList.add('hide');
+            document.getElementById('successMessage').classList.add('show');
+
+            // Reset form and show it again after 3 seconds
+            setTimeout(function() {
+                document.getElementById('intakeForm').reset();
+                document.getElementById('successMessage').classList.remove('show');
+                document.getElementById('formContent').classList.remove('hide');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
