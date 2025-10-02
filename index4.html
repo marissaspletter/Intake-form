@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Intake Form</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { font-family: sans-serif; background:#f3f4f6; padding:2rem; }
+.container { max-width: 800px; margin:0 auto; background:white; padding:2rem; border-radius:0.75rem; box-shadow:0 4px 6px rgba(0,0,0,0.1); }
+.section-header { display:flex; justify-content:space-between; align-items:center; padding:1rem; border-radius:0.5rem; cursor:pointer; margin-bottom:1rem; font-weight:600; }
+.section-header.blue { background:#3b82f6; color:white; }
+.section-header.purple { background:#a78bfa; color:white; }
+.section-header.yellow { background:#facc15; color:#1f2937; }
+.section-content { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+.section-content.expanded { max-height:5000px; }
+.form-group { margin-bottom:1.5rem; }
+.form-label { display:block; font-weight:600; margin-bottom:0.5rem; }
+.form-input, .form-select, .form-textarea { width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.5rem; }
+.form-textarea { min-height:4rem; }
+.btn-primary { background:#006C5B; color:white; padding:0.5rem 1rem; border:none; border-radius:0.5rem; cursor:pointer; }
+.btn-icon { background:none; border:none; cursor:pointer; font-size:1.5rem; color:#006C5B; }
+.feature-row { display:grid; grid-template-columns:1fr 1fr auto; gap:0.5rem; margin-bottom:0.5rem; }
+.subsection-header { cursor:pointer; padding:0.5rem; background:#e5e7eb; margin-bottom:0.5rem; border-radius:0.25rem; display:flex; justify-content:space-between; align-items:center; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1 class="text-2xl font-bold mb-2">Project Intake Form</h1>
+<p class="mb-4">Complete all required fields *</p>
+
+<form action="https://formspree.io/f/xrbyklvr" method="POST">
+
+<!-- Part 1 -->
+<div class="section-header blue" onclick="toggleSection('intake')">Part 1 – Intake</div>
+<div id="intake" class="section-content expanded">
+<div class="form-group">
+<label class="form-label">Funnel Entry Date *</label>
+<input type="date" name="funnel_entry_date" class="form-input" required>
+</div>
+<div class="form-group">
+<label class="form-label">Epic Anchoring Journey / Platform *</label>
+<select name="platform" class="form-select" required>
+<option value="">Select...</option>
+<option value="mobile">Mobile Banking</option>
+<option value="online">Online Banking</option>
+<option value="branch">Branch Experience</option>
+<option value="atm">ATM Services</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Lean Proposal Owner *</label>
+<select name="proposal_owner" class="form-select" required>
+<option value="">Select...</option>
+<option value="john_smith">John Smith</option>
+<option value="jane_doe">Jane Doe</option>
+<option value="mike_johnson">Mike Johnson</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Key Stakeholders</label>
+<textarea name="key_stakeholders" class="form-textarea"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Epic 1 Title *</label>
+<input type="text" name="epic_1_title" class="form-input" required>
+</div>
+<div class="form-group">
+<label class="form-label">Epic 1 Description *</label>
+<textarea name="epic_1_description" class="form-textarea" required></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Strategic Assessment</label>
+<textarea name="strategic_assessment" class="form-textarea"></textarea>
+</div>
+</div>
+
+<!-- Part 2 -->
+<div class="section-header purple" onclick="toggleSection('reviewing')">Part 2 – Reviewing</div>
+<div id="reviewing" class="section-content">
+<div class="form-group">
+<label class="form-label">Business Value Hypothesis</label>
+<textarea name="business_value_hypothesis" class="form-textarea"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Business Value Leading Indicators</label>
+<textarea name="business_value_indicators" class="form-textarea"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">In Scope</label>
+<textarea name="in_scope" class="form-textarea"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Out of Scope</label>
+<textarea name="out_of_scope" class="form-textarea"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Non-Functional Requirements</label>
+<textarea name="non_functional_requirements" class="form-textarea"></textarea>
+</div>
+
+<div class="form-group">
+<label class="form-label">Minimum Viable Product (MVP) Features</label>
+<div id="mvp-features"></div>
+<button type="button" class="btn-icon" onclick="addFeature('mvp')">+</button>
+</div>
+
+<div class="form-group">
+<label class="form-label">Complete Build Features</label>
+<div id="complete-features"></div>
+<button type="button" class="btn-icon" onclick="addFeature('complete')">+</button>
+</div>
+</div>
+
+<!-- Part 3 -->
+<div class="section-header yellow" onclick="toggleSection('analyzing')">Part 3 – Analyzing</div>
+<div id="analyzing" class="section-content">
+
+<div class="subsection-header" onclick="toggleSub('costs')">Costs</div>
+<div id="costs" class="section-content">
+<div class="form-group">
+<label>MVP Costs (Labor)</label>
+<div class="grid-3">
+<input type="number" placeholder="# Sprints" name="mvp_labor_sprints" class="form-input">
+<input type="text" placeholder="Squad Capacity" name="mvp_labor_capacity" class="form-input">
+<input type="text" placeholder="$ Amount" name="mvp_labor_amount" class="form-input">
+</div>
+</div>
+<div class="form-group">
+<label>MVP Costs (Non-Labor)</label>
+<input type="text" name="mvp_non_labor" class="form-input">
+</div>
+<div class="form-group">
+<label>Full Costs (Labor)</label>
+<div class="grid-3">
+<input type="number" placeholder="# Sprints" name="full_labor_sprints" class="form-input">
+<input type="text" placeholder="Squad Capacity" name="full_labor_capacity" class="form-input">
+<input type="text" placeholder="$ Amount" name="full_labor_amount" class="form-input">
+</div>
+</div>
+<div class="form-group">
+<label>Full Costs (Non-Labor)</label>
+<div class="grid-2">
+<input type="number" placeholder="# Integration Fees" name="full_nonlabor_integration" class="form-input">
+<input type="text" placeholder="NVP $" name="full_nonlabor_nvp" class="form-input">
+</div>
+</div>
+</div>
+
+<div class="subsection-header" onclick="toggleSub('benefits')">Benefits</div>
+<div id="benefits" class="section-content">
+<div class="form-group">
+<label>Expected Benefits (Financial)</label>
+<div id="benefits-fin"></div>
+<button type="button" class="btn-icon" onclick="addBenefit('fin')">+</button>
+</div>
+<div class="form-group">
+<label>Expected Benefits (Non-Financial)</label>
+<div id="benefits-nonfin"></div>
+<button type="button" class="btn-icon" onclick="addBenefit('nonfin')">+</button>
+</div>
+</div>
+
+</div>
+
+<button type="submit" class="btn-primary mt-4">Submit Form</button>
+</form>
+</div>
+
+<script>
+function toggleSection(id){document.getElementById(id).classList.toggle('expanded');}
+function toggleSub(id){document.getElementById(id).classList.toggle('expanded');}
+
+function addFeature(type){
+  const container=document.getElementById(type+'-features');
+  const div=document.createElement('div');
+  div.className='feature-row';
+  div.innerHTML=`
+    <input type="text" placeholder="Feature Name" name="${type}_feature_name[]" class="form-input">
+    <input type="text" placeholder="Description" name="${type}_feature_desc[]" class="form-input">
+    <button type="button" onclick="this.parentElement.remove()" class="btn-icon">-</button>`;
+  container.appendChild(div);
+}
+
+function addBenefit(type){
+  const container = document.getElementById(type==='fin' ? 'benefits-fin' : 'benefits-nonfin');
+  const div = document.createElement('div');
+  div.className = 'feature-row';
+  div.innerHTML = `
+    <input type="text" placeholder="Benefit Name" name="${type}_benefit_name[]" class="form-input">
+    <input type="text" placeholder="QBR Commitment Date" name="${type}_benefit_date[]" class="form-input">
+    <select name="${type}_benefit_status[]" class="form-select">
+      <option value="">Select status</option>
+      <option value="committed">Committed</option>
+      <option value="pending">Pending</option>
+      <option value="achieved">Achieved</option>
+    </select>
+    <button type="button" onclick="this.parentElement.remove()" class="btn-icon">-</button>`;
+  container.appendChild(div);
+}
+
+// Initialize with one row for each feature/benefit
+window.addEventListener('DOMContentLoaded', ()=>{
+  addFeature('mvp'); addFeature('complete'); addBenefit('fin'); addBenefit('nonfin');
+});
+</script>
+</body>
+</html>
